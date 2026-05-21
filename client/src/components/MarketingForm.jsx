@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Sparkles } from 'lucide-react';
+import { Send } from 'lucide-react';
 
 // Configure backend API endpoint URL
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
@@ -192,7 +192,7 @@ export default function MarketingForm({ onGenerationStart, onGenerationSuccess, 
             </>
           ) : (
             <>
-              <Sparkles size={18} />
+              <Send size={18} />
               <span>Generate Assets</span>
             </>
           )}

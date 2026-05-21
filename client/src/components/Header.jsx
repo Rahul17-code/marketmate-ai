@@ -1,6 +1,6 @@
 import React from 'react';
 import { supabase } from '../lib/supabaseClient';
-import { LogOut, Sparkles } from 'lucide-react';
+import { LogOut, Megaphone } from 'lucide-react';
 
 /**
  * Header component for the application dashboard.
@@ -22,10 +22,10 @@ export default function Header({ user }) {
       {/* Brand logo & styling */}
       <div className="header-brand">
         <div className="logo-icon">
-          <Sparkles size={20} fill="#ffffff" />
+          <Megaphone size={20} className="widget-icon" />
         </div>
         <div className="brand-titles">
-          <h1 className="logo-text">MarketMate AI</h1>
+          <h1 className="logo-text">MarketMate</h1>
         </div>
       </div>
 

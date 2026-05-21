@@ -8,8 +8,7 @@ import {
   Lightbulb, 
   Video, 
   Hash, 
-  Zap,
-  Sparkles
+  Zap
 } from 'lucide-react';
 
 export default function OutputCard({ data, inputs }) {
@@ -19,9 +18,9 @@ export default function OutputCard({ data, inputs }) {
   if (!data) {
     return (
       <div className="output-card empty-state">
-        <Sparkles className="empty-icon animate-pulse" size={48} />
-        <h3>Generate Your Campaign</h3>
-        <p>Fill out the settings on the left to generate captions, ad copies, outreach messages, video scripts, and more using AI.</p>
+        <Megaphone className="empty-icon animate-pulse" size={48} style={{ color: 'var(--color-primary)' }} />
+        <h3>Create Your Campaign Assets</h3>
+        <p>Fill out the options in the sidebar to generate professional captions, ad copy, outreach messages, video scripts, and more.</p>
       </div>
     );
   }
