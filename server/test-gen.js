@@ -14,7 +14,7 @@ const genAI = new GoogleGenerativeAI(apiKey);
 async function generateWithGemini(params) {
   const { businessType, targetAudience, productService, platform, tone, goal } = params;
   const model = genAI.getGenerativeModel({
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3.5-flash',
     generationConfig: {
       responseMimeType: 'application/json',
     },
@@ -32,23 +32,45 @@ Generate a cohesive marketing campaign for the following business:
 
 Your response must be a single valid JSON object.
 Do not include any markdown blocks like \`\`\`json or \`\`\` in the response. Return raw JSON only.
+
 The JSON object must follow this structure exactly:
 {
   "captions": [
-    // Generate exactly 5 captions tailored for the platform, tone, and business type
+    "Generate caption 1 tailored for the platform, tone, and business type",
+    "Generate caption 2...",
+    "Generate caption 3...",
+    "Generate caption 4...",
+    "Generate caption 5..."
   ],
   "adCopies": [
-    // Generate exactly 3 high-converting ad copies
+    "Generate ad copy 1 (high-converting)",
+    "Generate ad copy 2...",
+    "Generate ad copy 3..."
   ],
   "outreachMessages": [
-    // Generate exactly 3 outreach messages (suitable for WhatsApp, LinkedIn, or Email)
+    "Generate outreach message 1 (for WhatsApp, LinkedIn, or Email)",
+    "Generate outreach message 2...",
+    "Generate outreach message 3..."
   ],
   "contentIdeas": [
-    // Generate exactly 10 engaging content ideas or post concepts
+    "Generate content idea 1",
+    "Generate content idea 2",
+    "Generate content idea 3",
+    "Generate content idea 4",
+    "Generate content idea 5",
+    "Generate content idea 6",
+    "Generate content idea 7",
+    "Generate content idea 8",
+    "Generate content idea 9",
+    "Generate content idea 10"
   ],
   "videoScript": "A detailed 30-60 second short video script (including stage directions and spoken copy) matching the platform and goal",
   "hashtags": [
-    // Generate exactly 5 trending and relevant hashtags (prefixed with #)
+    "#hashtag1",
+    "#hashtag2",
+    "#hashtag3",
+    "#hashtag4",
+    "#hashtag5"
   ],
   "callToAction": "One clear and compelling Call-To-Action (CTA)"
 }
@@ -74,10 +96,10 @@ Ensure all arrays contain the exact number of items specified: 5 captions, 3 ad 
 }
 
 generateWithGemini({
-  businessType: 'gym',
-  targetAudience: 'fat people',
-  productService: 'cardio',
-  platform: 'Instagram',
-  tone: 'Emotional',
-  goal: 'Lead Generation'
+  businessType: 'marketing',
+  targetAudience: 'professional marketers age between 20-45',
+  productService: 'a platform that makes the marketing campaign',
+  platform: 'LinkedIn',
+  tone: 'Professional',
+  goal: 'Brand Awareness'
 }).catch(console.error);

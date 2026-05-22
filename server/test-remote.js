@@ -1,11 +1,11 @@
 async function testRemote() {
   const payload = {
-    businessType: 'gym',
-    targetAudience: 'fat people',
-    productService: 'cardio',
-    platform: 'Instagram',
-    tone: 'Emotional',
-    goal: 'Lead Generation',
+    businessType: 'marketing',
+    targetAudience: 'professional marketers age between 20-45',
+    productService: 'a platform that makes the marketing campai',
+    platform: 'LinkedIn',
+    tone: 'Professional',
+    goal: 'Brand Awareness',
     provider: 'gemini'
   };
 

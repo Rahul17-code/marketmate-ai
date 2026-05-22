@@ -121,23 +121,34 @@ Ensure all arrays contain the exact number of items specified: 5 captions, 3 ad 
 
   let responseText = result.response.text();
   
-  // Clean up response formatting if the model still wrapped it in markdown fences
-  if (responseText) {
-    responseText = responseText.trim();
-    if (responseText.startsWith('```json')) {
-      responseText = responseText.slice(7);
-    } else if (responseText.startsWith('```')) {
-      responseText = responseText.slice(3);
-    }
-    if (responseText.endsWith('```')) {
-      responseText = responseText.slice(0, -3);
-    }
-    responseText = responseText.trim();
-  }
-
-  // Parse output to ensure it matches the required format
+  // Parse output robustly to handle fences, wrapping text, and trailing commas
   try {
-    return JSON.parse(responseText);
+    if (!responseText) throw new Error('Empty response received from AI.');
+    
+    let cleaned = responseText.trim();
+    
+    // 1. Extract JSON object boundaries (between first '{' and last '}')
+    const firstOpen = cleaned.indexOf('{');
+    const lastClose = cleaned.lastIndexOf('}');
+    if (firstOpen !== -1 && lastClose !== -1 && lastClose > firstOpen) {
+      cleaned = cleaned.substring(firstOpen, lastClose + 1);
+    }
+    
+    // 2. Strip standard markdown code blocks if still present
+    if (cleaned.startsWith('```json')) {
+      cleaned = cleaned.slice(7);
+    } else if (cleaned.startsWith('```')) {
+      cleaned = cleaned.slice(3);
+    }
+    if (cleaned.endsWith('```')) {
+      cleaned = cleaned.slice(0, -3);
+    }
+    cleaned = cleaned.trim();
+
+    // 3. Remove trailing commas in arrays/objects which break standard JSON.parse
+    cleaned = cleaned.replace(/,\s*([\]}])/g, '$1');
+
+    return JSON.parse(cleaned);
   } catch (parseError) {
     console.error('Failed to parse Gemini output as JSON:', responseText);
     console.error('Parsing error details:', parseError);
