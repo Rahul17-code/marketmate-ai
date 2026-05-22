@@ -53,23 +53,45 @@ Generate a cohesive marketing campaign for the following business:
 
 Your response must be a single valid JSON object.
 Do not include any markdown blocks like \`\`\`json or \`\`\` in the response. Return raw JSON only.
+
 The JSON object must follow this structure exactly:
 {
   "captions": [
-    // Generate exactly 5 captions tailored for the platform, tone, and business type
+    "Generate caption 1 tailored for the platform, tone, and business type",
+    "Generate caption 2...",
+    "Generate caption 3...",
+    "Generate caption 4...",
+    "Generate caption 5..."
   ],
   "adCopies": [
-    // Generate exactly 3 high-converting ad copies
+    "Generate ad copy 1 (high-converting)",
+    "Generate ad copy 2...",
+    "Generate ad copy 3..."
   ],
   "outreachMessages": [
-    // Generate exactly 3 outreach messages (suitable for WhatsApp, LinkedIn, or Email)
+    "Generate outreach message 1 (for WhatsApp, LinkedIn, or Email)",
+    "Generate outreach message 2...",
+    "Generate outreach message 3..."
   ],
   "contentIdeas": [
-    // Generate exactly 10 engaging content ideas or post concepts
+    "Generate content idea 1",
+    "Generate content idea 2",
+    "Generate content idea 3",
+    "Generate content idea 4",
+    "Generate content idea 5",
+    "Generate content idea 6",
+    "Generate content idea 7",
+    "Generate content idea 8",
+    "Generate content idea 9",
+    "Generate content idea 10"
   ],
   "videoScript": "A detailed 30-60 second short video script (including stage directions and spoken copy) matching the platform and goal",
   "hashtags": [
-    // Generate exactly 5 trending and relevant hashtags (prefixed with #)
+    "#hashtag1",
+    "#hashtag2",
+    "#hashtag3",
+    "#hashtag4",
+    "#hashtag5"
   ],
   "callToAction": "One clear and compelling Call-To-Action (CTA)"
 }
@@ -78,13 +100,28 @@ Ensure all arrays contain the exact number of items specified: 5 captions, 3 ad 
 `;
 
   const result = await model.generateContent(prompt);
-  const responseText = result.response.text();
+  let responseText = result.response.text();
   
+  // Clean up response formatting if the model still wrapped it in markdown fences
+  if (responseText) {
+    responseText = responseText.trim();
+    if (responseText.startsWith('```json')) {
+      responseText = responseText.slice(7);
+    } else if (responseText.startsWith('```')) {
+      responseText = responseText.slice(3);
+    }
+    if (responseText.endsWith('```')) {
+      responseText = responseText.slice(0, -3);
+    }
+    responseText = responseText.trim();
+  }
+
   // Parse output to ensure it matches the required format
   try {
     return JSON.parse(responseText);
   } catch (parseError) {
     console.error('Failed to parse Gemini output as JSON:', responseText);
+    console.error('Parsing error details:', parseError);
     throw new Error('AI returned an invalid JSON response. Please try again.');
   }
 }
