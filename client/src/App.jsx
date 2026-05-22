@@ -4,7 +4,7 @@ import Header from './components/Header';
 import MarketingForm from './components/MarketingForm';
 import OutputCard from './components/OutputCard';
 import History from './components/History';
-import { Megaphone, Mail, Lock } from 'lucide-react';
+import { Mail, Lock } from 'lucide-react';
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -125,10 +125,10 @@ export default function App() {
       <div className="auth-container">
         <div className="auth-card">
           <div className="header-brand" style={{ justifyContent: 'center', marginBottom: '24px' }}>
-            <div className="logo-icon">
-              <Megaphone size={20} className="widget-icon" />
+            <div className="logo-icon" style={{ background: 'transparent', border: 'none', padding: 0, width: '48px', height: '48px' }}>
+              <img src="/logo.png" alt="MarketMate Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
             </div>
-            <h1 className="logo-text">MarketMate</h1>
+            <h1 className="logo-text" style={{ fontSize: '1.75rem' }}>MarketMate</h1>
           </div>
 
           <h2 className="auth-title">Welcome to MarketMate</h2>
