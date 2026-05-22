@@ -32,14 +32,6 @@ async function generateWithGemini(params) {
   const { businessType, targetAudience, productService, platform, tone, goal } = params;
   const genAI = getGenerativeAIClient();
   
-  // Use gemini-2.5-flash as the default model for fast and cost-effective text generation
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.5-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-    },
-  });
-
   // Construct a detailed prompt detailing exactly what structured fields the frontend expects
   const prompt = `
 You are an expert marketing strategist and copywriter.
@@ -99,7 +91,34 @@ The JSON object must follow this structure exactly:
 Ensure all arrays contain the exact number of items specified: 5 captions, 3 ad copies, 3 outreach messages, 10 content ideas, 5 hashtags, 1 call-to-action.
 `;
 
-  const result = await model.generateContent(prompt);
+  const modelsToTry = ['gemini-3.5-flash', 'gemini-2.5-flash'];
+  let result = null;
+  let lastError = null;
+
+  for (const modelName of modelsToTry) {
+    try {
+      console.log(`Attempting generation with model: ${modelName}`);
+      const model = genAI.getGenerativeModel({
+        model: modelName,
+        generationConfig: {
+          responseMimeType: 'application/json',
+        },
+      });
+      result = await model.generateContent(prompt);
+      if (result) {
+        console.log(`Successfully generated content using model: ${modelName}`);
+        break;
+      }
+    } catch (err) {
+      console.warn(`Model ${modelName} failed or returned error:`, err.message);
+      lastError = err;
+    }
+  }
+
+  if (!result) {
+    throw new Error(lastError?.message || 'All available Gemini models are currently experiencing high demand. Please try again in a few moments.');
+  }
+
   let responseText = result.response.text();
   
   // Clean up response formatting if the model still wrapped it in markdown fences

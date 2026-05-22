@@ -12,23 +12,22 @@ async function main() {
 
   const genAI = new GoogleGenerativeAI(apiKey);
   
-  try {
-    console.log('Testing connection to Gemini API...');
-    // We try to list models
-    // Since GoogleGenerativeAI doesn't have a direct listModels, we can fetch using fetch or check standard endpoints
-    // Wait, let's try calling gemini-1.5-flash and gemini-2.5-flash with a simple request
-    const model1 = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-    const res1 = await model1.generateContent('Hi');
-    console.log('gemini-1.5-flash connection successful:', res1.response.text());
-  } catch (err1) {
-    console.error('gemini-1.5-flash failed:', err1.message);
-    
+  const models = [
+    'gemini-2.0-flash',
+    'gemini-2.0-flash-lite',
+    'gemini-2.0-pro',
+    'gemini-3.0-flash',
+    'gemini-3.5-flash'
+  ];
+
+  for (const m of models) {
     try {
-      const model2 = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-      const res2 = await model2.generateContent('Hi');
-      console.log('gemini-2.5-flash connection successful:', res2.response.text());
-    } catch (err2) {
-      console.error('gemini-2.5-flash failed:', err2.message);
+      console.log(`Testing connection to ${m}...`);
+      const model = genAI.getGenerativeModel({ model: m });
+      const res = await model.generateContent('Hi');
+      console.log(`SUCCESS [${m}]:`, res.response.text());
+    } catch (err) {
+      console.error(`FAILED [${m}]:`, err.message);
     }
   }
 }
