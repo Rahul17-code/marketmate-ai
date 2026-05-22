@@ -91,7 +91,7 @@ The JSON object must follow this structure exactly:
 Ensure all arrays contain the exact number of items specified: 5 captions, 3 ad copies, 3 outreach messages, 10 content ideas, 5 hashtags, 1 call-to-action.
 `;
 
-  const modelsToTry = ['gemini-3.5-flash', 'gemini-2.5-flash'];
+  const modelsToTry = ['gemini-3.5-flash', 'gemini-3.1-flash-lite', 'gemini-2.5-flash'];
   let result = null;
   let lastError = null;
 
